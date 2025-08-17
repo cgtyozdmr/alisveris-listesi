@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alışveriş Listesi - Ana Sayfa</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link th:href="@{/css/style.css}" href="../static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Header -->
+        <header class="header-gradient text-white text-center py-4 mb-4">
+            <div class="container">
+                <h1 class="display-5 mb-1">
+                    <i class="fas fa-shopping-cart me-2"></i>
+                    Alışveriş Listesi
+                </h1>
+                <p class="lead mb-0">Özdemir Ailesi Ortak Alışveriş listesi</p>
+            </div>
+        </header>
+
+        <!-- Hızlı Aksiyonlar - Üste taşındı -->
+<div class="container mb-3">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="row">
+                <div class="col-6">
+                    <a href="/kullanici/ekle" class="btn btn-outline-primary w-100">
+                        <i class="fas fa-user-plus me-2"></i>
+                        Yeni Kullanıcı
+                    </a>
+                </div>
+                <div class="col-6">
+                    <a href="/urun/ekle" class="btn btn-outline-success w-100">
+                        <i class="fas fa-plus me-2"></i>
+                        Detaylı Ekle
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <!-- Flash Messages -->
+        <div class="container" th:if="${basari != null or hata != null}">
+            <div th:if="${basari != null}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle me-2"></i>
+                <span th:text="${basari}">Başarı mesajı</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div th:if="${hata != null}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                <span th:text="${hata}">Hata mesajı</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 col-lg-6">
+                    
+                    <!-- Kullanıcı Seçimi ve Ürün Ekleme -->
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-header bg-light">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-plus-circle me-2 text-success"></i>
+                                Yeni Ürün Ekle
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <form th:action="@{/urun/ekle}" method="post" th:object="${yeniUrun}">
+                                
+                                <!-- Kullanıcı Seçimi -->
+                                <div class="mb-3">
+                                    <label for="ekleyenKisiId" class="form-label">
+                                        <i class="fas fa-user me-1"></i>
+                                        Kim ekliyor?
+                                    </label>
+                                    <select name="ekleyenKisiId" id="ekleyenKisiId" class="form-select" required>
+                                        <option value="">Kullanıcı seçin...</option>
+                                        <option th:each="kullanici : ${kullanicilar}" 
+                                                th:value="${kullanici.id}" 
+                                                th:text="${kullanici.ad}"
+                                                th:selected="${kullanici.ad == 'Çağatay'}">
+                                            Kullanıcı Adı
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <!-- Ürün Adı -->
+                                <div class="mb-3">
+                                    <label for="ad" class="form-label">
+                                        <i class="fas fa-shopping-basket me-1"></i>
+                                        Ürün Adı
+                                    </label>
+                                    <input type="text" 
+                                           th:field="*{ad}" 
+                                           id="ad" 
+                                           class="form-control" 
+                                           placeholder="Örn: Ekmek, Süt, Domates..."
+                                           required>
+                                </div>
+
+                                <!-- Açıklama (Opsiyonel) -->
+                                <div class="mb-3">
+                                    <label for="aciklama" class="form-label">
+                                        <i class="fas fa-comment me-1"></i>
+                                        Açıklama (Opsiyonel)
+                                    </label>
+                                    <input type="text" 
+                                           th:field="*{aciklama}" 
+                                           id="aciklama" 
+                                           class="form-control" 
+                                           placeholder="Örn: 2 adet, büyük boy...">
+                                </div>
+
+                                <!-- Ekle Butonu -->
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-success btn-lg">
+                                        <i class="fas fa-plus me-2"></i>
+                                        Listeye Ekle
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- İstatistikler ve Kontroller -->
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-body">
+                            <div class="row text-center">
+                                <div class="col-4">
+                                    <div class="stat-item">
+                                        <i class="fas fa-list-ul text-primary fs-4"></i>
+                                        <div class="fw-bold fs-5" th:text="${toplamUrunSayisi ?: 0}">0</div>
+                                        <small class="text-muted">Toplam</small>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="stat-item">
+                                        <i class="fas fa-check-circle text-success fs-4"></i>
+                                        <div class="fw-bold fs-5" th:text="${satinAlinanSayisi ?: 0}">0</div>
+                                        <small class="text-muted">Tamamlandı</small>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="stat-item">
+                                        <i class="fas fa-clock text-warning fs-4"></i>
+                                        <div class="fw-bold fs-5" th:text="${satinAlinmamiSayisi ?: 0}">0</div>
+                                        <small class="text-muted">Bekliyor</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Temizle Butonu -->
+                            <div class="text-center mt-3" th:if="${satinAlinanSayisi > 0}">
+                                <button type="button" 
+                                        class="btn btn-outline-danger btn-sm" 
+                                        onclick="temizleOnayi()">
+                                    <i class="fas fa-trash-alt me-1"></i>
+                                    Tamamlananları Temizle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ürün Listesi -->
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-light">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-list me-2 text-primary"></i>
+                                Alışveriş Listesi
+                            </h5>
+                        </div>
+                        <div class="card-body p-0">
+                            
+                            <!-- Boş Liste Durumu -->
+                            <div th:if="${#lists.isEmpty(urunler)}" class="text-center py-5">
+                                <i class="fas fa-inbox text-muted" style="font-size: 4rem;"></i>
+                                <h5 class="text-muted mt-3">Liste boş</h5>
+                                <p class="text-muted">Henüz hiç ürün eklenmemiş. Yukarıdan ilk ürününüzü ekleyin!</p>
+                            </div>
+
+                            <!-- Ürün Listesi -->
+                            <div th:if="${!#lists.isEmpty(urunler)}" class="list-group list-group-flush">
+                                <div th:each="urun : ${urunler}" 
+                                     class="list-group-item py-3"
+                                     th:classappend="${urun.satinAlindiMi} ? 'completed-item' : ''">
+                                    
+                                    <div class="d-flex align-items-center">
+                                        <!-- Checkbox -->
+                                        <div class="form-check me-3">
+                                            <input type="checkbox" 
+                                                   class="form-check-input" 
+                                                   th:id="'urun-' + ${urun.id}"
+                                                   th:checked="${urun.satinAlindiMi}"
+                                                   th:onclick="'durumDegistir(' + ${urun.id} + ')'">
+                                        </div>
+
+                                        <!-- Ürün Bilgileri -->
+                                        <div class="flex-grow-1">
+                                            <div class="d-flex justify-content-between align-items-start">
+                                                <div>
+                                                    <h6 class="mb-1 urun-adi" 
+                                                        th:text="${urun.ad}"
+                                                        th:classappend="${urun.satinAlindiMi} ? 'text-decoration-line-through text-muted' : ''">
+                                                        Ürün Adı
+                                                    </h6>
+                                                    <small class="text-muted" th:if="${urun.aciklama}" th:text="${urun.aciklama}">
+                                                        Açıklama
+                                                    </small>
+                                                </div>
+                                                
+                                                <!-- Aksiyon Butonları -->
+                                                <div class="btn-group" role="group">
+                                                    <button type="button" 
+                                                            class="btn btn-outline-primary btn-sm"
+                                                            th:onclick="'urunDuzenle(' + ${urun.id} + ')'"
+                                                            title="Düzenle">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button type="button" 
+                                                            class="btn btn-outline-danger btn-sm"
+                                                            th:onclick="'urunSil(' + ${urun.id} + ')'"
+                                                            title="Sil">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <!-- Meta Bilgiler -->
+                                            <div class="mt-2">
+                                                <span class="badge bg-secondary me-2">
+                                                    <i class="fas fa-user me-1"></i>
+                                                    <span th:text="${urun.ekleyenKisi.ad}">Ekleyen</span>
+                                                </span>
+                                                <span class="badge bg-light text-dark">
+                                                    <i class="fas fa-clock me-1"></i>
+                                                    <span th:text="${#temporals.format(urun.eklenmeTarihi, 'dd.MM.yyyy HH:mm')}">
+                                                        Tarih
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                   
+
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="text-center mt-5 py-4 text-muted">
+            <div class="container">
+                <p class="mb-0">
+                    <i class="fas fa-heart text-danger"></i>
+                    Spring Boot ile yapıldı
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script th:src="@{/js/app.js?v=2}" src="../static/js/app.js"></script>
+</body>
+</html>

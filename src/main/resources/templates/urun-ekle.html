@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ürün Ekle - Alışveriş Listesi</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link th:href="@{/css/style.css}" href="../static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Header -->
+        <header class="header-gradient text-white text-center py-4 mb-4">
+            <div class="container">
+                <h1 class="display-5 mb-1">
+                    <i class="fas fa-plus-circle me-2"></i>
+                    Ürün Ekle
+                </h1>
+                <p class="lead mb-0">Alışveriş listesine yeni ürün ekleyin</p>
+            </div>
+        </header>
+
+        <!-- Flash Messages -->
+        <div class="container" th:if="${basari != null or hata != null}">
+            <div th:if="${basari != null}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle me-2"></i>
+                <span th:text="${basari}">Başarı mesajı</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div th:if="${hata != null}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                <span th:text="${hata}">Hata mesajı</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 col-lg-6">
+                    
+                    <!-- Geri Dön Linki -->
+                    <div class="mb-3">
+                        <a href="/" class="text-decoration-none">
+                            <i class="fas fa-arrow-left me-2"></i>
+                            Ana Sayfaya Dön
+                        </a>
+                    </div>
+
+                    <!-- Ürün Ekleme Formu -->
+                    <div class="card shadow">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-shopping-basket me-2"></i>
+                                Yeni Ürün Bilgileri
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <form th:action="@{/urun/ekle}" method="post" th:object="${yeniUrun}">
+                                
+                                <!-- Kullanıcı Seçimi -->
+                                <div class="mb-4">
+                                    <label for="ekleyenKisiId" class="form-label">
+                                        <i class="fas fa-user me-2 text-primary"></i>
+                                        Kim ekliyor? <span class="text-danger">*</span>
+                                    </label>
+                                    <select name="ekleyenKisiId" id="ekleyenKisiId" class="form-select" required>
+                                        <option value="">Kullanıcı seçin...</option>
+                                        <option th:each="kullanici : ${kullanicilar}" 
+                                                th:value="${kullanici.id}" 
+                                                th:text="${kullanici.ad}">
+                                            Kullanıcı Adı
+                                        </option>
+                                    </select>
+                                    <div class="form-text">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Listede adınız yoksa önce 
+                                        <a href="/kullanici/ekle">yeni kullanıcı ekleyin</a>
+                                    </div>
+                                </div>
+
+                                <!-- Ürün Adı -->
+                                <div class="mb-4">
+                                    <label for="ad" class="form-label">
+                                        <i class="fas fa-shopping-basket me-2 text-primary"></i>
+                                        Ürün Adı <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" 
+                                           th:field="*{ad}" 
+                                           id="ad" 
+                                           class="form-control" 
+                                           placeholder="Örn: Ekmek, Süt, Domates, Elma..."
+                                           required
+                                           maxlength="100">
+                                    <div class="form-text">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Net ve anlaşılır bir ürün adı girin
+                                    </div>
+                                </div>
+
+                                <!-- Açıklama -->
+                                <div class="mb-4">
+                                    <label for="aciklama" class="form-label">
+                                        <i class="fas fa-comment me-2 text-primary"></i>
+                                        Açıklama (Opsiyonel)
+                                    </label>
+                                    <textarea th:field="*{aciklama}" 
+                                              id="aciklama" 
+                                              class="form-control" 
+                                              rows="3"
+                                              placeholder="Örn: 2 adet, büyük boy, organik, marka tercihi..."
+                                              maxlength="255"></textarea>
+                                    <div class="form-text">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Miktır, marka, özel not gibi detayları buraya yazabilirsiniz
+                                    </div>
+                                </div>
+
+                                <!-- Butonlar -->
+                                <div class="row">
+                                    <div class="col-6">
+                                        <a href="/" class="btn btn-outline-secondary w-100">
+                                            <i class="fas fa-times me-2"></i>
+                                            İptal
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="submit" class="btn btn-success w-100">
+                                            <i class="fas fa-plus me-2"></i>
+                                            Listeye Ekle
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Yardımcı Bilgiler -->
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h6 class="card-title">
+                                <i class="fas fa-lightbulb text-warning me-2"></i>
+                                İpuçları
+                            </h6>
+                            <ul class="list-unstyled mb-0">
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Ürün adını net bir şekilde yazın (örn: "Beyaz ekmek" yerine "Ekmek")
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Miktar bilgisini açıklama kısmına yazın
+                                </li>
+                                <li class="mb-0">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Marka tercihi varsa açıklama kısmında belirtin
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="text-center mt-5 py-4 text-muted">
+            <div class="container">
+                <p class="mb-0">
+                    <i class="fas fa-heart text-danger"></i>
+                    Spring Boot ile yapıldı
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script th:src="@{/js/app.js?v=2}" src="../static/js/app.js"></script>
+</body>
+</html>

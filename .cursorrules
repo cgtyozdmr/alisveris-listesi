@@ -1,0 +1,250 @@
+# ALIŞVERIŞ LİSTESİ SPRING BOOT PROJESİ - CURSOR KURALLARI
+
+## GENEL PRİNSİPLER
+
+### Öğrenme Odaklı Yaklaşım
+- Bu proje Spring Boot öğrenme amaçlı yapılıyor
+- Karmaşık yapılardan kaçın, temel kavramları pekiştirecek şekilde kod yazın
+- Her kod bloğu öğretici olmalı, referans proje özelliği taşımalı
+- SOLID prensiplerine uygun, okunabilir kod yazın
+
+### Türkçe Kod Yazım Kuralları
+- Tüm method isimleri Türkçe olsun: `urunEkle()`, `listeGetir()`, `urunSil()`
+- Değişken isimleri Türkçe: `urunListesi`, `kullaniciAdi`, `satinAlindiMi`
+- Sınıf isimleri Türkçe: `UrunController`, `UrunService`, `UrunRepository`
+- Yorum satırları Türkçe olsun ve açıklayıcı olsun
+
+### Kod Kalitesi
+- Gereksiz kod tekrarından kaçının (DRY prensibi)
+- Mevcut yapıyı bozmadan değişiklik yapın
+- Gerekmedikçe yeni dosya/klasör oluşturmayın
+- Mümkün olduğunca az kod ile işlevi gerçekleştirin
+- Clean Code prensiplerine uyun
+- Gerekli tüm kütüphaneleri ekle ve eklendiğiniden emin ol.
+
+### İletişim Kuralları
+- Bana herzaman Türkçe cevap ver
+- Kısa ve öz açıklamalar yap
+- Tek tek kod açıklaması yapma (Java temelim var)
+- İsteği tamamlayana kadar durmayın, adım adım ilerleyin
+
+## TEKNİK SPESİFİKASYONLAR
+
+### Teknoloji Stack'i
+- **Java 17**
+- **Spring Boot 3.x** (latest stable)
+- **Maven** build tool
+- **H2 Database** (başlangıç için)
+- **Spring Data JPA**
+- **Spring Web MVC**
+- **Thymeleaf** template engine
+- **Bootstrap 5** (modern UI için)
+
+### Proje Yapısı
+```
+src/main/java/com/alisverilistesi/
+├── AlisverisListesiApplication.java
+├── controller/
+│   └── UrunController.java
+├── model/
+│   ├── Urun.java
+│   └── Kullanici.java
+├── repository/
+│   ├── UrunRepository.java
+│   └── KullaniciRepository.java
+├── service/
+│   ├── UrunService.java
+│   └── KullaniciService.java
+└── config/
+    └── WebConfig.java
+
+src/main/resources/
+├── templates/
+│   ├── index.html
+│   ├── urun-ekle.html
+│   ├── kullanici-ekle.html
+│   └── layout/
+│       └── main.html
+├── static/
+│   ├── css/
+│   │   └── style.css
+│   ├── js/
+│   │   └── app.js
+│   └── images/
+├── application.properties
+└── data.sql
+```
+
+### Veri Modeli
+- **Urun Entity**: id, ad, satinAlindiMi, eklenmeTarihi, aciklama, ekleyenKisi
+- **Kullanici Entity**: id, ad, aktifMi (ortak liste, sadece kim ekledi bilgisi için)
+
+### Controller Yapısı
+- REST endpoint'leri + Thymeleaf view'ları birlikte
+- `/` - Ana sayfa (ortak liste görünümü)
+- `/urun/ekle` - Ürün ekleme sayfası
+- `/kullanici/ekle` - Yeni kullanıcı ekleme
+- `/api/urun/**` - REST endpoints (JSON)
+- `/api/kullanici/**` - Kullanıcı yönetimi endpoints
+- HTTP methodları: GET, POST, PUT, DELETE
+
+### Kullanıcı Yönetimi (Ortak Liste Yaklaşımı)
+- **TEK ORTAK LİSTE** - tüm kullanıcılar aynı listeyi görür
+- **Dinamik kullanıcı ekleme** - yeni kişiler eklenebilir
+- **"Kim ekledi?" bilgisi** - her ürünün yanında görünsün
+- **Herkes düzenleme/silme** yetkisine sahip
+- **Kullanıcı seçimi** - ürün eklerken dropdown'dan seçim
+
+### Veritabanı Yapılandırması
+- H2 in-memory database
+- Automatic table creation
+- Sample data loading (data.sql)
+- H2 console enabled for development
+
+### Özellikler (Aşamalı Geliştirme)
+1. **Kullanıcı yönetimi** (dinamik ekleme/listeleme)
+2. **Temel CRUD işlemleri** (ortak liste)
+3. **"Kim ekledi?" bilgi görüntüleme**
+4. **Arama ve filtreleme** (kullanıcı bazlı da)
+5. **Durum güncelleme (satın alındı/alınmadı)**
+6. **Liste temizleme**
+7. **Responsive tasarım**
+
+## TASARIM REHBERİ
+
+### Genel Tasarım Yaklaşımı
+- **Modern ve minimalist** tasarım
+- **Mobile-first** responsive yaklaşım
+- **Card-based layout** - beyaz kart içinde tüm içerik
+- **Gradient background** - mavi-mor tonları
+- **Bootstrap 5** kullanın
+- **Font Awesome** ikonları
+
+### Renk Şeması
+- **Ana renk**: Yeşil tonları (#4CAF50)
+- **Accent renk**: Turuncu (#FF9800) 
+- **Tehlike rengi**: Kırmızı (#F44336)
+- **Arka plan**: Gradient (mavi-mor)
+- **Kartlar**: Beyaz, gölgeli
+
+### Layout Yapısı
+```
+┌─────────────────────────┐
+│       HEADER            │ ← Gradient arka plan, beyaz yazı
+│   🛒 Alışveriş Listesi   │
+│     Ortak aile listesi  │
+├─────────────────────────┤
+│   Kim ekliyor? [Seçim]  │ ← Açık gri arka plan
+├─────────────────────────┤
+│  [Ürün adı gir]        │ ← Beyaz alan
+│  [Listeye Ekle]        │
+├─────────────────────────┤
+│ 📊 5 ürün • 2 tamamlandı│ ← İstatistik + Temizle butonu
+├─────────────────────────┤
+│ ☑️ Ekmek          ✏️🗑️  │ ← Ürün satırları
+│   👤Ahmet  🕐2sa önce   │
+│ ⬜ Süt            ✏️🗑️  │
+│   👤Ayşe   🕐5dk önce   │
+└─────────────────────────┘
+```
+
+### Önemli Tasarım Kuralları
+- **500px maksimum genişlik** - mobil odaklı
+- **Yuvarlatılmış köşeler** (12px border-radius)
+- **Hover efektleri** - butonlarda yumuşak geçişler
+- **Checkbox büyük** olsun (touch-friendly)
+- **User badge'ler** renkli ve küçük
+- **Tamamlanan ürünler** üstü çizili ve solduk
+- **Boş durumlar** için güzel placeholder göster
+
+Bu tasarım rehberini takip ederek modern, kullanıcı dostu bir arayüz oluşturun.
+
+## KODLAMA KURALLARI
+
+### Spring Boot Best Practices
+- `@RestController` ve `@Controller` ayrımını doğru yapın
+- `@Service` katmanını business logic için kullanın
+- `@Repository` JPA için kullanın
+- Dependency Injection için constructor injection kullanın
+- Configuration'ları `application.properties`'te tutun
+
+### Exception Handling
+- Global exception handler ekleyin (`@ControllerAdvice`)
+- Custom exception sınıfları oluşturun
+- Kullanıcı dostu error mesajları
+
+### Validation
+- `@Valid` annotation'ları kullanın
+- Custom validator'lar yazın
+- Frontend'te de validation yapın
+
+### Testing (İlerisi için)
+- Unit test'ler için JUnit 5
+- Integration test'ler için `@SpringBootTest`
+- MockMvc kullanın
+
+## FRONTEND KURALLARI
+
+### CSS Organizasyonu
+- Modular CSS yazın (component bazlı)
+- CSS custom properties kullanın (variables)
+- Flexbox ve Grid kullanın
+- Animasyonlar smooth olsun
+
+### JavaScript
+- Vanilla JavaScript kullanın (framework yok)
+- Modern ES6+ syntax
+- Async/await pattern
+- Event delegation pattern
+
+### Responsive Design
+- Mobile-first approach
+- Bootstrap grid system
+- Touch-friendly interface
+- Fast loading
+
+## GÜVENLİK VE PERFORMANS
+
+### Güvenlik (Temel)
+- SQL Injection koruması (JPA otomatik)
+- XSS koruması (Thymeleaf otomatik)
+- CSRF koruması
+- Input validation
+
+### Performans
+- Lazy loading
+- Database indexing
+- Caching (basit level)
+- Minified CSS/JS
+
+## DEPLOYMENT HAZIRLIĞI
+
+- Environment-based configuration
+- Health check endpoints
+- Logging configuration
+- Docker support (opsiyonel)
+
+## ÖRNEK METHODLAR
+
+
+```java
+// Service katmanında
+public List<Urun> tumUrunleriGetir() { ... }
+public Urun urunEkle(Urun urun) { ... }
+public List<Kullanici> aktifKullanicilariGetir() { ... }
+
+// Controller katmanında  
+@GetMapping("/")
+public String anaSayfa(Model model) { ... }
+
+@PostMapping("/urun/ekle")
+public String urunEkle(@ModelAttribute Urun urun) { ... }
+```
+
+## HATA AYIKLAMA
+- Detailed logging
+- H2 console erişimi
+- Dev tools hot reload
+- Clear error messages
+
+Bu kuralları takip ederek profesyonel, öğretici ve referans değeri yüksek bir Spring Boot projesi oluşturun.

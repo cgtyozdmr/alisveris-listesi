@@ -1,0 +1,55 @@
+# ========== JAVA & MAVEN ==========
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# ========== IDE ==========
+.idea/
+*.iws
+*.iml
+*.ipr
+.vscode/
+.settings/
+.project
+.classpath
+
+# ========== SPRING BOOT ==========
+*.log
+*.log.*
+logs/
+
+# ========== OS ==========
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ========== GIT ==========
+*.orig
+
+# ========== DATABASE ==========
+# MySQL veritabanı bilgileri (production'da farklı olacak)
+# application-prod.properties
+
+# ========== TEMP FILES ==========
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# ========== NODE MODULES (Eğer frontend varsa) ==========
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ========== SECURITY ==========
+# Şifreleri içeren dosyalar (varsa)
+application-secrets.properties
+*.key
+*.pem

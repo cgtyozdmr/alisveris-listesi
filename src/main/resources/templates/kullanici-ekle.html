@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcı Ekle - Alışveriş Listesi</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link th:href="@{/css/style.css}" href="../static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Header -->
+        <header class="header-gradient text-white text-center py-4 mb-4">
+            <div class="container">
+                <h1 class="display-5 mb-1">
+                    <i class="fas fa-user-plus me-2"></i>
+                    Kullanıcı Ekle
+                </h1>
+                <p class="lead mb-0">Listeye yeni aile üyesi ekleyin</p>
+            </div>
+        </header>
+
+        <!-- Flash Messages -->
+        <div class="container" th:if="${basari != null or hata != null}">
+            <div th:if="${basari != null}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fas fa-check-circle me-2"></i>
+                <span th:text="${basari}">Başarı mesajı</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div th:if="${hata != null}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                <span th:text="${hata}">Hata mesajı</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 col-lg-6">
+                    
+                    <!-- Geri Dön Linki -->
+                    <div class="mb-3">
+                        <a href="/" class="text-decoration-none">
+                            <i class="fas fa-arrow-left me-2"></i>
+                            Ana Sayfaya Dön
+                        </a>
+                    </div>
+
+                    <!-- Kullanıcı Ekleme Formu -->
+                    <div class="card shadow">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-user me-2"></i>
+                                Yeni Kullanıcı Bilgileri
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <form th:action="@{/kullanici/ekle}" method="post" th:object="${yeniKullanici}">
+                                
+                                <!-- Kullanıcı Adı -->
+                                <div class="mb-4">
+                                    <label for="ad" class="form-label">
+                                        <i class="fas fa-user me-2 text-primary"></i>
+                                        Kullanıcı Adı <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" 
+                                           th:field="*{ad}" 
+                                           id="ad" 
+                                           class="form-control form-control-lg" 
+                                           placeholder="Örn: Ahmet, Ayşe, Mehmet..."
+                                           required
+                                           minlength="2"
+                                           maxlength="50">
+                                    <div class="form-text">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        2-50 karakter arası olmalı. Gerçek adınızı yazın.
+                                    </div>
+                                </div>
+
+                                <!-- Kullanıcı Durumu -->
+                                <div class="mb-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" 
+                                               type="checkbox" 
+                                               th:field="*{aktifMi}"
+                                               id="aktifMi" 
+                                               checked>
+                                        <label class="form-check-label" for="aktifMi">
+                                            <i class="fas fa-toggle-on text-success me-2"></i>
+                                            Bu kullanıcı aktif olsun
+                                        </label>
+                                    </div>
+                                    <div class="form-text">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Aktif kullanıcılar ürün eklerken seçim listesinde görünür
+                                    </div>
+                                </div>
+
+                                <!-- Butonlar -->
+                                <div class="row">
+                                    <div class="col-6">
+                                        <a href="/" class="btn btn-outline-secondary w-100">
+                                            <i class="fas fa-times me-2"></i>
+                                            İptal
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="submit" class="btn btn-primary w-100">
+                                            <i class="fas fa-user-plus me-2"></i>
+                                            Kullanıcı Ekle
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Bilgilendirme Kartı -->
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h6 class="card-title">
+                                <i class="fas fa-info-circle text-info me-2"></i>
+                                Bilgi
+                            </h6>
+                            <p class="card-text mb-0">
+                                Bu alışveriş listesi ortak kullanımlı bir listedir. Eklediğiniz kullanıcı 
+                                adı sadece "kim ekledi" bilgisi için kullanılır. Herkes listeyi görebilir 
+                                ve düzenleyebilir.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Yardımcı Bilgiler -->
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h6 class="card-title">
+                                <i class="fas fa-lightbulb text-warning me-2"></i>
+                                İpuçları
+                            </h6>
+                            <ul class="list-unstyled mb-0">
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Aile üyelerinin gerçek adlarını kullanın
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Aynı isimde kullanıcı ekleyemezsiniz
+                                </li>
+                                <li class="mb-0">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Pasif kullanıcılar ürün ekleme listesinde görünmez
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="text-center mt-5 py-4 text-muted">
+            <div class="container">
+                <p class="mb-0">
+                    <i class="fas fa-heart text-danger"></i>
+                    Spring Boot ile yapıldı
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script th:src="@{/js/app.js?v=2}" src="../static/js/app.js"></script>
+</body>
+</html>

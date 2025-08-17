@@ -1,0 +1,414 @@
+/* ========== GENEL STILLER ========== */
+:root {
+    --primary-color: #4CAF50;
+    --accent-color: #FF9800;
+    --danger-color: #F44336;
+    --gradient-start: #667eea;
+    --gradient-end: #764ba2;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --border-radius: 12px;
+    --transition: all 0.3s ease;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+/* ========== HEADER STILLER ========== */
+.header-gradient {
+    background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+    box-shadow: var(--card-shadow);
+}
+
+.header-gradient h1 {
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.header-gradient .lead {
+    opacity: 0.9;
+}
+
+/* ========== KART STILLER ========== */
+.card {
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    border-radius: var(--border-radius) var(--border-radius) 0 0 !important;
+    border-bottom: none;
+    font-weight: 600;
+}
+
+/* ========== BUTON STILLER ========== */
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: var(--transition);
+    border: none;
+}
+
+.btn-success {
+    background-color: var(--primary-color);
+    box-shadow: 0 2px 4px rgba(76, 175, 80, 0.3);
+}
+
+.btn-success:hover {
+    background-color: #45a049;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.4);
+}
+
+.btn-outline-danger:hover {
+    background-color: var(--danger-color);
+    border-color: var(--danger-color);
+}
+
+.btn-lg {
+    padding: 12px 24px;
+    font-size: 1.1rem;
+}
+
+.btn-sm {
+    padding: 4px 8px;
+    font-size: 0.875rem;
+}
+
+/* ========== FORM STILLER ========== */
+.form-control {
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    transition: var(--transition);
+    padding: 12px 16px;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+}
+
+.form-select {
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    transition: var(--transition);
+    padding: 12px 16px;
+}
+
+.form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+}
+
+.form-check-input {
+    transform: scale(1.2);
+    margin-top: 0.2em;
+}
+
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* ========== İSTATİSTİK STILLER ========== */
+.stat-item {
+    padding: 16px;
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.stat-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.stat-item i {
+    margin-bottom: 8px;
+}
+
+.stat-item .fw-bold {
+    transition: transform 0.2s ease;
+}
+
+/* ========== LİSTE STILLER ========== */
+.list-group-item {
+    border: none;
+    border-bottom: 1px solid #f8f9fa;
+    padding: 16px 20px;
+    transition: var(--transition);
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+.list-group-item:last-child {
+    border-bottom: none;
+}
+
+/* Tamamlanmış ürün stili */
+.completed-item {
+    background-color: #f8f9fa !important;
+    opacity: 0.7;
+}
+
+.completed-item .urun-adi {
+    text-decoration: line-through;
+    color: #6c757d !important;
+}
+
+/* ========== BADGE STILLER ========== */
+.badge {
+    font-size: 0.75rem;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.bg-secondary {
+    background-color: #6c757d !important;
+}
+
+.bg-light {
+    background-color: #f8f9fa !important;
+    border: 1px solid #dee2e6;
+}
+
+/* ========== ALERT STILLER ========== */
+.alert {
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border-left: 4px solid var(--primary-color);
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-left: 4px solid var(--danger-color);
+}
+
+/* ========== RESPONSIVE TASARIM ========== */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .card {
+        margin: 0 10px;
+    }
+    
+    .header-gradient h1 {
+        font-size: 2rem;
+    }
+    
+    .header-gradient .lead {
+        font-size: 1rem;
+    }
+    
+    .btn-group .btn {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+    
+    .stat-item {
+        padding: 12px;
+    }
+    
+    .list-group-item {
+        padding: 12px 16px;
+    }
+}
+
+@media (max-width: 576px) {
+    .header-gradient {
+        padding: 1.5rem 0;
+    }
+    
+    .header-gradient h1 {
+        font-size: 1.75rem;
+    }
+    
+    .card {
+        margin: 0 5px;
+    }
+    
+    .btn-lg {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+}
+
+/* ========== ANİMASYONLAR ========== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Form giriş animasyonu */
+.form-control:focus,
+.form-select:focus {
+    animation: focusGlow 0.3s ease-in-out;
+}
+
+@keyframes focusGlow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4);
+    }
+    100% {
+        box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+    }
+}
+
+/* Checkbox animasyonu */
+.form-check-input {
+    transition: all 0.3s ease;
+}
+
+.form-check-input:checked {
+    animation: checkBounce 0.3s ease;
+}
+
+@keyframes checkBounce {
+    0% {
+        transform: scale(1.2);
+    }
+    50% {
+        transform: scale(1.4);
+    }
+    100% {
+        transform: scale(1.2);
+    }
+}
+
+/* ========== HOVER EFEKTLERİ ========== */
+.btn-group .btn:hover {
+    transform: scale(1.05);
+}
+
+.form-check-input:hover {
+    transform: scale(1.3);
+}
+
+/* Link hover efektleri */
+a {
+    transition: var(--transition);
+}
+
+a:hover {
+    text-decoration: none !important;
+}
+
+/* ========== ÖZEL STILLER ========== */
+.text-decoration-line-through {
+    text-decoration: line-through !important;
+}
+
+/* Footer stili */
+footer {
+    margin-top: auto;
+}
+
+footer p {
+    font-size: 0.9rem;
+}
+
+/* Loading spinner */
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* Boş durum illüstrasyonu */
+.empty-state {
+    padding: 3rem 1rem;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    opacity: 0.5;
+}
+
+/* ========== PRINT STILLER ========== */
+@media print {
+    .btn,
+    .alert,
+    footer {
+        display: none !important;
+    }
+    
+    .card {
+        box-shadow: none;
+        border: 1px solid #dee2e6;
+    }
+    
+    .header-gradient {
+        background: #fff !important;
+        color: #000 !important;
+    }
+}
+/* Butonlar için daha koyu renkler */
+.btn-outline-primary {
+    color: #0d47a1 !important; /* Koyu mavi */
+    border-color: #0d47a1 !important;
+    background-color: rgba(255, 255, 255, 0.9) !important; /* Hafif beyaz arka plan */
+}
+
+.btn-outline-success {
+    color: #1b5e20 !important; /* Koyu yeşil */
+    border-color: #1b5e20 !important;
+    background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Hover durumları */
+.btn-outline-primary:hover {
+    background-color: #0d47a1 !important;
+    color: white !important;
+}
+
+.btn-outline-success:hover {
+    background-color: #1b5e20 !important;
+    color: white !important;
+}
+
+/* Alternatif: Solid butonlar kullanın */
+.btn-primary {
+    background-color: #0d47a1 !important;
+    border-color: #0d47a1 !important;
+}
+
+.btn-success {
+    background-color: #1b5e20 !important;
+    border-color: #1b5e20 !important;
+}
